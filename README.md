@@ -1,6 +1,6 @@
 # nbrite
 
-Simple Node.js helper module for [Eventbrite API V3]((http://developer.eventbrite.com/docs/).
+Simple Node.js helper module for [Eventbrite API V3](http://developer.eventbrite.com/docs/).
 
 Please see the [Eventbrite API documentation](http://developer.eventbrite.com/docs/) for full reference.
 Currently this is a preview release of the new API so it may be modified without notice. As of this writing,
