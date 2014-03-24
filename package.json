@@ -5,7 +5,7 @@
   "name": "nbrite",
   "description": "Simple Node.js helper module for Eventbrite API V3",
   "keywords": ["eventbrite", "events", "registration", "payments", "location"],
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/bojand/nbrite",
   "license": "MIT",
   "repository": {
