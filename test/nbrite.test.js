@@ -7,13 +7,17 @@ var nbrite;
 
 module.exports = {
   before: function (fn) {
-    nbrite = new Nbrite(auth.access_token);
+    nbrite = new Nbrite({token: auth.access_token});
     fn();
   },
 
-  /*
-   * Event functions
-   */
+  beforeEach: function (done) {
+    setTimeout(done, 400);
+  },
+
+  //
+  // Event functions
+  //
 
   'get event details': function (done) {
     nbrite.events(fixture.existing_event_id).info(function (err, body) {
@@ -121,9 +125,9 @@ module.exports = {
     });
   },
 
-  /*
-   * User functions
-   */
+  //
+  // User functions
+  //
 
   'get user details': function (done) {
     nbrite.users(fixture.existing_user_id).info(function (err, body) {
@@ -195,9 +199,9 @@ module.exports = {
     });
   },
 
-  /*
-   * Order functions
-   */
+  //
+  // Order functions
+  //
 
   'get order details': function (done) {
     nbrite.orders(fixture.existing_order_id).info(function (err, body) {
@@ -205,5 +209,5 @@ module.exports = {
       assert.ok(body);
       done();
     });
-  },
+  }
 };
