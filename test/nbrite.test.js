@@ -209,5 +209,18 @@ module.exports = {
       assert.ok(body);
       done();
     });
+  },
+
+  //
+  // Contact Lists
+  //
+
+  'create a contact list': function (done) {
+    nbrite.users(fixture.existing_user_id).contact_lists().create(fixture.new_contact_list, function (err, body) {
+      console.dir(body);
+      assert.ifError(err);
+      assert.ok(body);
+      done();
+    });
   }
 };
