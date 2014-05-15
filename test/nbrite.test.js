@@ -215,12 +215,14 @@ module.exports = {
   // Contact Lists
   //
 
-  'create a contact list': function (done) {
-    nbrite.users(fixture.existing_user_id).contact_lists().create(fixture.new_contact_list, function (err, body) {
-      console.dir(body);
+  'get user\'s contact lists': function (done) {
+    nbrite.users(fixture.existing_user_id).contactLists().list(function (err, body) {
       assert.ifError(err);
       assert.ok(body);
+      assert.ok(body.contact_lists);
       done();
     });
   }
+
+  // TODO test POST functions. seems to be getting error from the API
 };
