@@ -19,6 +19,25 @@ module.exports = {
   // Event functions
   //
 
+  'event search': function (done) {
+    var startDate = new Date(2015, 1, 1).toISOString();
+    startDate = startDate.slice(0, startDate.lastIndexOf('.'));
+    startDate = startDate.concat('Z');
+
+    var query = {
+      'start_date.range_start': startDate,
+      'venue.city': 'Halifax'
+    };
+
+    nbrite.events().search(query, function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      assert.ok(body.events);
+      assert.ok(body.events instanceof Array);
+      done();
+    });
+  },
+
   'get event details': function (done) {
     nbrite.events(fixture.existing_event_id).info(function (err, body) {
       assert.ifError(err);

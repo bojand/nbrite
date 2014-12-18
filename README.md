@@ -3,8 +3,6 @@
 Simple Node.js helper module for [Eventbrite API V3](http://developer.eventbrite.com/docs/).
 
 Please see the [Eventbrite API documentation](http://developer.eventbrite.com/docs/) for full reference.
-Currently this is a preview release of the new API so it may be modified without notice. As of this writing,
-most endpoints are `GET` only. This library is likely to change. You probably **do not** want to use this in production.
 
 ## Installation
 
