@@ -72,6 +72,15 @@ nbrite.users('44499922255').info().then(function (data) {
 
 The function passed as 2nd argument is optional and not needed if you don't care about the fail case.
 
+## Debug logging
+
+This library uses [debug](http://developer.eventbrite.com/docs/) for debug logging. You can turn it on by adding
+`nbrite` to `DEBUG` environment variable when you run your Node application/script. Example:
+
+```
+DEBUG=nbrite node myapp
+```
+
 ## Tests
 
 To run the test suite you must first create a file named `/test/auth.json`, which contains your credentials as JSON, for example:
@@ -106,8 +115,6 @@ The tests will call Eventbrite API.
 
 ## TODO
 * Promise tests.
-* POST functions.
-* New API resources as they are exposed.
 
 ## Notes
 
