@@ -74,7 +74,7 @@ The function passed as 2nd argument is optional and not needed if you don't care
 
 ## Debug logging
 
-This library uses [debug](http://developer.eventbrite.com/docs/) for debug logging. You can turn it on by adding
+This library uses [debug](https://www.npmjs.com/package/debug) for debug logging. You can turn it on by adding
 `nbrite` to `DEBUG` environment variable when you run your Node application/script. Example:
 
 ```
