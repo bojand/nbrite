@@ -11,6 +11,14 @@ Please see the [Eventbrite API documentation](http://developer.eventbrite.com/do
 ## Usage overview
 
 This module works by providing proxy objects for interacting with  different resources through the Eventbrite API.
+Most methods take a `data` parameter, which is a Javascript object that would contain the arguments for the Eventbrite API.
+All methods take a final parameter callback with two parameters: `error`, and `body`.
+We try to parse the `body` into a javascript object, and return it to the callback as such for easier use and inspection by the client.
+If there was an error a new `Error` object will be passed to the callback in the `error` parameter.
+If the error originated from the (Eventbrite) server, the response code will be available in the `status_code` property
+of the `error` object passed in the callback.
+
+For full usage examples see the `/test` folder.
 
 Basic usage to get event info:
 
