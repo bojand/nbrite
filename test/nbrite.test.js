@@ -5,6 +5,9 @@ var Nbrite = require('../lib/Nbrite');
 
 var nbrite;
 
+var ticketClassId;
+var eventId;
+
 module.exports = {
   before: function (fn) {
     nbrite = new Nbrite({token: auth.access_token});
@@ -38,6 +41,141 @@ module.exports = {
     });
   },
 
+  'create cost ticket class': function (done) {
+    var params = {
+      'ticket_class.name': 'Sample ticket class',
+      'ticket_class.description': 'Sample ticket class description.',
+      'ticket_class.quantity_total': 100,
+      'ticket_class.currency': 'USD',
+      'ticket_class.cost_fee:': 1000,
+      'ticket_class.donation': false,
+      'ticket_class.free': false,
+      'ticket_class.include_fee': false,
+      'ticket_class.split_fee': false,
+      'ticket_class.hide_description': false,
+      'ticket_class.minimum_quantity': 1,
+      'ticket_class.maximum_quantity': 4
+    };
+
+    nbrite.events(fixture.existing_event_id).ticketClasses().create(params, function (err, body) {
+      console.dir(err);
+      assert.ifError(err);
+      assert.ok(body);
+      console.dir(body);
+      done();
+    });
+  },
+
+  'create free ticket class': function (done) {
+    var params = {
+      'ticket_class.name': 'Sample free ticket class',
+      'ticket_class.description': 'Sample free ticket class description.',
+      'ticket_class.quantity_total': 100,
+      'ticket_class.donation': false,
+      'ticket_class.free': true,
+      'ticket_class.include_fee': false,
+      'ticket_class.split_fee': false,
+      'ticket_class.hide_description': false,
+      'ticket_class.minimum_quantity': 1,
+      'ticket_class.maximum_quantity': 4
+    };
+
+    nbrite.events(fixture.existing_event_id).ticketClasses().create(params, function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      ticketClassId = body.id;
+      done();
+    });
+  },
+
+  'get ticket type details': function (done) {
+    nbrite.events(fixture.existing_event_id).ticketClasses(ticketClassId).info(function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      done();
+    });
+  },
+
+  'update ticket type details': function (done) {
+    var params = {
+      'ticket_class.name': 'Free ticket',
+      'ticket_class.description': 'Free ticket class description 2.',
+      'ticket_class.quantity_total': 200,
+      'ticket_class.donation': false,
+      'ticket_class.free': true,
+      'ticket_class.include_fee': false,
+      'ticket_class.split_fee': false,
+      'ticket_class.hide_description': false,
+      'ticket_class.minimum_quantity': 1,
+      'ticket_class.maximum_quantity': 2
+    };
+    nbrite.events(fixture.existing_event_id).ticketClasses(ticketClassId).update(params, function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      done();
+    });
+  },
+
+  'delete ticket type details': function (done) {
+    nbrite.events(fixture.existing_event_id).ticketClasses(ticketClassId).delete(function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      assert.ok(body.deleted);
+      done();
+    });
+  },
+
+  'get categories': function (done) {
+    nbrite.categories().list(function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      assert.ok(body.categories);
+      done();
+    });
+  },
+
+  'get category details': function (done) {
+    nbrite.categories(fixture.category_id).info(function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      done();
+    });
+  },
+
+  'get subcategories': function (done) {
+    nbrite.subcategories().list(function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      assert.ok(body.subcategories);
+      done();
+    });
+  },
+
+  'get subcategories details': function (done) {
+    nbrite.subcategories(fixture.subcategory_id).info(function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      done();
+    });
+  },
+
+  'get formats': function (done) {
+    nbrite.formats().list(function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      assert.ok(body.formats);
+      done();
+    });
+  },
+
+  'get format details': function (done) {
+    nbrite.formats(fixture.format_id).info(function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      done();
+    });
+  },
+
   'get event details': function (done) {
     nbrite.events(fixture.existing_event_id).info(function (err, body) {
       assert.ifError(err);
@@ -45,6 +183,8 @@ module.exports = {
       done();
     });
   },
+
+  // TODO rest of /events endpont test here.
 
   'get event attendees invalid status': function (done) {
     nbrite.events(fixture.existing_event_id).attendees().list({status: 123}, function (err, body) {
@@ -242,6 +382,4 @@ module.exports = {
       done();
     });
   }
-
-  // TODO test POST functions. seems to be getting error from the API
 };
