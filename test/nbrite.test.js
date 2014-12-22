@@ -211,6 +211,24 @@ module.exports = {
     });
   },
 
+  'publish an existing event details': function (done) {
+    nbrite.events(fixture.existing_event_id).publish(function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      assert.ok(body.published);
+      done();
+    });
+  },
+
+  'unpublish an existing event details': function (done) {
+    nbrite.events(fixture.existing_event_id).unpublish(function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      assert.ok(body.unpublished);
+      done();
+    });
+  },
+
   'update an existing event details': function (done) {
     var startDate = nbrite.formatDate(new Date(2022, 11, 11));
     var endDate = nbrite.formatDate(new Date(2022, 12, 12));
@@ -301,8 +319,6 @@ module.exports = {
       done();
     });
   },
-
-  // TODO test for discount create
 
   'get event access codes': function (done) {
     nbrite.events(fixture.existing_event_id).accessCodes().list(function (err, body) {
