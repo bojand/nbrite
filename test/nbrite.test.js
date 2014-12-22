@@ -23,9 +23,7 @@ module.exports = {
   //
 
   'event search': function (done) {
-    var startDate = new Date(2015, 1, 1).toISOString();
-    startDate = startDate.slice(0, startDate.lastIndexOf('.'));
-    startDate = startDate.concat('Z');
+    var startDate = nbrite.formatDate(new Date(2015, 1, 1));
 
     var query = {
       'start_date.range_start': startDate,
@@ -47,7 +45,7 @@ module.exports = {
       'ticket_class.description': 'Sample ticket class description.',
       'ticket_class.quantity_total': 100,
       'ticket_class.currency': 'USD',
-      'ticket_class.cost_fee:': 1000,
+      'ticket_class.cost.value:': 1000,
       'ticket_class.donation': false,
       'ticket_class.free': false,
       'ticket_class.include_fee': false,
@@ -58,10 +56,8 @@ module.exports = {
     };
 
     nbrite.events(fixture.existing_event_id).ticketClasses().create(params, function (err, body) {
-      console.dir(err);
       assert.ifError(err);
       assert.ok(body);
-      console.dir(body);
       done();
     });
   },
@@ -184,7 +180,75 @@ module.exports = {
     });
   },
 
-  // TODO rest of /events endpont test here.
+  'create an offline event': function (done) {
+    var startDate = nbrite.formatDate(new Date(2022, 11, 11));
+    var endDate = nbrite.formatDate(new Date(2022, 12, 12));
+
+    var params = {
+      'event.name.html': 'Sample event name',
+      'event.description': 'Sample event description',
+      'event.start.utc': startDate,
+      'event.start.timezone': 'America/Halifax',
+      'event.end.utc': endDate,
+      'event.end.timezone': 'America/Halifax',
+      'event.currency': 'USD',
+      'event.online_event': false,
+      'event.listed': false,
+      'event.category_id': fixture.category_id.toString(),
+      'event.subcategory_id': fixture.subcategory_id.toString(),
+      'event.format_id': fixture.format_id.toString(),
+      'event.shareable': true,
+      'event.invite_only': false,
+      'event.capacity': 100,
+      'event.show_remaining': false
+    };
+
+    nbrite.events().create(params, function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      eventId = body.id;
+      done();
+    });
+  },
+
+  'update an existing event details': function (done) {
+    var startDate = nbrite.formatDate(new Date(2022, 11, 11));
+    var endDate = nbrite.formatDate(new Date(2022, 12, 12));
+
+    var params = {
+      'event.name.html': 'Sample event name updated',
+      'event.start.utc': startDate,
+      'event.start.timezone': 'America/Halifax',
+      'event.end.utc': endDate,
+      'event.end.timezone': 'America/Halifax',
+      'event.currency': 'USD',
+      'event.online_event': false,
+      'event.listed': false,
+      'event.category_id': fixture.category_id.toString(),
+      'event.subcategory_id': fixture.subcategory_id.toString(),
+      'event.format_id': fixture.format_id.toString(),
+      'event.shareable': true,
+      'event.invite_only': false,
+      'event.capacity': 100,
+      'event.show_remaining': false
+    };
+
+    nbrite.events(fixture.existing_event_id).update(params, function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      done();
+    });
+  },
+
+  'delete an event': function (done) {
+    done();
+    // TODO once create works, fix this
+    /*nbrite.events(eventId).delete(function (err, body) {
+     assert.ifError(err);
+     assert.ok(body);
+     done();
+     });*/
+  },
 
   'get event attendees invalid status': function (done) {
     nbrite.events(fixture.existing_event_id).attendees().list({status: 123}, function (err, body) {
