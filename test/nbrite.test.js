@@ -8,6 +8,8 @@ var nbrite;
 var ticketClassId;
 var eventId;
 var discountId;
+var accessCodeId;
+var venueId;
 
 module.exports = {
   before: function (fn) {
@@ -345,6 +347,12 @@ module.exports = {
     });
   },
 
+  'get a specific event discount': function (done) {
+    // TODO fix this!
+    assert.ifError(new Error('test not implemented!'));
+    done();
+  },
+
   'update event discount': function (done) {
     // TODO fix this!
     assert.ifError(new Error('test not implemented!'));
@@ -366,6 +374,35 @@ module.exports = {
       assert.ok(body.access_codes);
       done();
     });
+  },
+
+  'create event access code': function (done) {
+    var params = {
+      code: 'SAMPLE_ACCESS_CODE',
+      start_date: nbrite.formatDate(new Date(2015, 11, 11)),
+      end_date: nbrite.formatDate(new Date(2015, 12, 12)),
+      ticket_ids: [ fixture.existing_ticket_id ],
+      quantity_available: 100
+    };
+
+    nbrite.events(fixture.existing_event_id).accessCodes().create(params, function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      accessCodeId = body.id;
+      done();
+    });
+  },
+
+  'update event access code': function (done) {
+    // TODO fix this!
+    assert.ifError(new Error('test not implemented!'));
+    done();
+  },
+
+  'delete event access code': function (done) {
+    // TODO fix this!
+    assert.ifError(new Error('test not implemented!'));
+    done();
   },
 
   'get event transfers': function (done) {
@@ -467,6 +504,39 @@ module.exports = {
       done();
     });
   },
+
+  'create a venue': function (done) {
+    // TODO Fix this
+    var params = {
+      'venue.name': 'Sample venue',
+      'venue.address': {
+        "address_1": "Apartment 106",
+        "address_2": "45 Royal Street",
+        "city": "London",
+        "region": "London",
+        "postal_code": "SW1A 1AA",
+        "country": "GB",
+        "country_name": "United Kingdom"
+      }
+    };
+
+    nbrite.venues().create(params, function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      venueId = body.id;
+      done();
+    });
+  },
+
+  'get venue details': function (done) {
+    nbrite.venues(fixture.existing_venue_id).info(function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      done();
+    });
+  },
+
+  // TODO organizers
 
   'get user organizers': function (done) {
     nbrite.users(fixture.existing_user_id).organizers().list(function (err, body) {
