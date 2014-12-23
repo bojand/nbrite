@@ -7,6 +7,7 @@ var nbrite;
 
 var ticketClassId;
 var eventId;
+var discountId;
 
 module.exports = {
   before: function (fn) {
@@ -35,6 +36,15 @@ module.exports = {
       assert.ok(body);
       assert.ok(body.events);
       assert.ok(body.events instanceof Array);
+      done();
+    });
+  },
+
+  'get ticket classes for an event': function (done) {
+    nbrite.events(fixture.existing_event_id).ticketClasses().list(function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      assert.ok(body.ticket_classes);
       done();
     });
   },
@@ -259,13 +269,14 @@ module.exports = {
   },
 
   'delete an event': function (done) {
+    assert.ifError(new Error('test not implemented!'));
     done();
     // TODO once create works, fix this
-    /*nbrite.events(eventId).delete(function (err, body) {
-     assert.ifError(err);
-     assert.ok(body);
-     done();
-     });*/
+    // nbrite.events(eventId).delete(function (err, body) {
+    //  assert.ifError(err);
+    //  assert.ok(body);
+    //  done();
+    //  });
   },
 
   'get event attendees invalid status': function (done) {
@@ -319,6 +330,34 @@ module.exports = {
       done();
     });
   },
+
+  'create event discount': function (done) {
+    // TODO fix this!
+    var params = {
+      start_date: nbrite.formatDate(new Date(2015, 11, 11)),
+      ticket_ids: [ fixture.existing_ticket_id ]
+    };
+
+    nbrite.events(fixture.existing_event_id).discounts().create(params, function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      done();
+    });
+  },
+
+  'update event discount': function (done) {
+    // TODO fix this!
+    assert.ifError(new Error('test not implemented!'));
+    done();
+  },
+
+  'delete event discount': function (done) {
+    // TODO fix this!
+    assert.ifError(new Error('test not implemented!'));
+    done();
+  },
+
+  // TODO access codes
 
   'get event access codes': function (done) {
     nbrite.events(fixture.existing_event_id).accessCodes().list(function (err, body) {
