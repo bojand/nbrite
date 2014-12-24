@@ -10,6 +10,8 @@ var eventId;
 var discountId;
 var accessCodeId;
 var venueId;
+var organizerId;
+var contactListId;
 
 module.exports = {
   before: function (fn) {
@@ -538,11 +540,48 @@ module.exports = {
 
   // TODO organizers
 
+  'create an organizer': function (done) {
+    var params = {
+      'organizer.name': 'Sample Organizer'.concat('', (new Date()).getTime().toString()),
+      'organizer.description.html': 'Sample organizer description'
+    };
+
+    nbrite.organizers().create(params, function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      organizerId = body.id;
+      done();
+    });
+  },
+
   'get user organizers': function (done) {
     nbrite.users(fixture.existing_user_id).organizers().list(function (err, body) {
       assert.ifError(err);
       assert.ok(body);
       assert.ok(body.organizers);
+      done();
+    });
+  },
+
+  'update an organizer': function (done) {
+    var params = {
+      'organizer.name': 'Sample Organizer Updated'.concat(' ', (new Date()).getTime().toString()),
+      'organizer.description.html': 'Sample organizer updated description'
+    };
+
+    nbrite.organizers(organizerId).update(params, function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      assert.ok(body.name === params['organizer.name']);
+      done();
+    });
+  },
+
+  'get specific organizer': function (done) {
+    nbrite.organizers(organizerId).info(function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      assert.ok(body.name);
       done();
     });
   },
@@ -568,6 +607,53 @@ module.exports = {
       assert.ifError(err);
       assert.ok(body);
       assert.ok(body.contact_lists);
+      done();
+    });
+  },
+
+  'create a contact lists': function (done) {
+    var params = {
+      'contact_list.name': 'Sample Contact List'.concat(' ', (new Date()).getTime().toString())
+    };
+
+    nbrite.users(fixture.existing_user_id).contactLists().create(params, function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      assert.ok(body.id);
+      contactListId = body.id;
+      done();
+    });
+  },
+
+  'get a specific contact list': function (done) {
+    nbrite.users(fixture.existing_user_id).contactLists(contactListId).info(function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      assert.ok(body.id);
+      assert.ok(body.id === contactListId);
+      done();
+    });
+  },
+
+  'update a specific contact list': function (done) {
+    var params = {
+      'contact_list.name': 'Sample Contact List Updated'.concat(' ', (new Date()).getTime().toString())
+    };
+
+    nbrite.users(fixture.existing_user_id).contactLists(contactListId).update(params, function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
+      assert.ok(body.id);
+      assert.ok(body.id === contactListId);
+      assert.ok(body.name === params['contact_list.name']);
+      done();
+    });
+  },
+
+  'delete a specific contact list': function (done) {
+    nbrite.users(fixture.existing_user_id).contactLists(contactListId).delete(function (err, body) {
+      assert.ifError(err);
+      assert.ok(body);
       done();
     });
   }
