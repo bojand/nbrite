@@ -338,8 +338,12 @@ module.exports = {
   'create event discount': function (done) {
     // TODO fix this!
     var params = {
+      code: 'SAMPLECODE',
+      percent_off: 20,
       start_date: nbrite.formatDate(new Date(2015, 11, 11)),
-      ticket_ids: [ fixture.existing_ticket_id ]
+      end_date: nbrite.formatDate(new Date(2015, 12, 12)),
+      ticket_ids: [ fixture.existing_ticket_id ],
+      quantity_available: 100
     };
 
     nbrite.events(fixture.existing_event_id).discounts().create(params, function (err, body) {
