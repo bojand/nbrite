@@ -3,8 +3,6 @@
 Simple Node.js helper module for [Eventbrite API V3](http://developer.eventbrite.com/docs/).
 
 Please see the [Eventbrite API documentation](http://developer.eventbrite.com/docs/) for full reference.
-Currently this is a preview release of the new API so it may be modified without notice. As of this writing,
-most endpoints are `GET` only. This library is likely to change. You probably **do not** want to use this in production.
 
 ## Installation
 
@@ -13,6 +11,14 @@ most endpoints are `GET` only. This library is likely to change. You probably **
 ## Usage overview
 
 This module works by providing proxy objects for interacting with  different resources through the Eventbrite API.
+Most methods take a `data` parameter, which is a Javascript object that would contain the arguments for the Eventbrite API.
+All methods take a final parameter callback with two parameters: `error`, and `body`.
+We try to parse the `body` into a javascript object, and return it to the callback as such for easier use and inspection by the client.
+If there was an error a new `Error` object will be passed to the callback in the `error` parameter.
+If the error originated from the (Eventbrite) server, the response code will be available in the `status_code` property
+of the `error` object passed in the callback.
+
+For full usage examples see the `/test` folder.
 
 Basic usage to get event info:
 
@@ -74,6 +80,15 @@ nbrite.users('44499922255').info().then(function (data) {
 
 The function passed as 2nd argument is optional and not needed if you don't care about the fail case.
 
+## Debug logging
+
+This library uses [debug](https://www.npmjs.com/package/debug) for debug logging. You can turn it on by adding
+`nbrite` to `DEBUG` environment variable when you run your Node application/script. Example:
+
+```
+DEBUG=nbrite node myapp
+```
+
 ## Tests
 
 To run the test suite you must first create a file named `/test/auth.json`, which contains your credentials as JSON, for example:
@@ -108,8 +123,6 @@ The tests will call Eventbrite API.
 
 ## TODO
 * Promise tests.
-* POST functions.
-* New API resources as they are exposed.
 
 ## Notes
 
