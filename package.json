@@ -5,7 +5,7 @@
   "name": "nbrite",
   "description": "Simple Node.js helper module for Eventbrite API V3",
   "keywords": ["eventbrite", "events", "registration", "payments", "location"],
-  "version": "0.2.0",
+  "version": "0.3.0",
   "homepage": "https://github.com/bojand/nbrite",
   "license": "MIT",
   "repository": {
@@ -20,13 +20,14 @@
   },
   "main": "./lib/nbrite.js",
   "dependencies": {
-    "debug": "2.1.0",
-    "inflection": "~1.5.3",
+    "debug": "~2.2.0",
+    "inflection": "~1.7.1",
     "path-proxy": "~1.0.0",
-    "q": "~1.1.2"
+    "proxy-agent": "~1.1.0",
+    "q": "~1.4.1"
   },
   "devDependencies": {
-    "mocha": "~2.0.1"
+    "mocha": "~2.2.5"
   },
   "scripts": {
     "test": "mocha"
